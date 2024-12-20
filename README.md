@@ -1,6 +1,7 @@
 # SAC2KG a Neuro-Symbolic library for Volcano Event Detection
 
-![Version](https://img.shields.io/badge/Version-0.2.0-blue) ![License](https://img.shields.io/badge/License-MIT-green) ![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen) ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)  
+![Version](https://img.shields.io/badge/Version-0.2.0-blue) ![License](https://img.shields.io/badge/License-MIT-green) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14532821.svg)](https://doi.org/10.5281/zenodo.14532821)
+![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen) ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)  
 
 The SAC2KG Python Library provides tools to load, manipulate, and generate RDF knowledge graphs based on the Volcano Event Ontology (VEO). Designed with simplicity and extensibility in mind, this library streamlines ontology-based data modeling for seismic sensor networks and related domains.  
 
@@ -55,9 +56,6 @@ pip install .
 ``` Python  
 from sac2kg import GraphManager  
 
-# Initialize the ontology generator  
-veo = GraphManager()  
-
 # Sample data to map
 data = {
     "network": "TRZ",
@@ -68,13 +66,12 @@ data = {
     "elevation": 500,
     "data": [0.1, 0.2, 0.3],
 }
+# Initialize the ontology generator  
+veo = GraphManager()  
 
 # Map the data to the ontology
-rdf_graph = mapper.map_to_ontology(data)
-
-# Export the RDF graph
-rdf_graph.serialize("output.ttl", format="turtle")
-print("RDF data exported to output.ttl")
+rdf_graph = veo.rdf_mapper(data, "output")
+print("RDF Knowledge Graph exported to output.ttl")
 ```
 
 ## Citations 

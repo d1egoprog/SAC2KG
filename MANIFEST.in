@@ -1,0 +1,6 @@
+include README.md
+include LICENSE
+
+recursive-include pysac *.*
+recursive-include sac2kg *.*
+recursive-include data *.json

@@ -1,0 +1,28 @@
+[
+    {
+        "network": "NET01",
+        "station": "STATION_A",
+        "instrument": "INSTRUMENT_X",
+        "delta": 0.01,
+        "axis": 180.0,
+        "signal_type": "TIME_SERIES",
+        "unit": "m/s",
+        "polarity": true,
+        "latitude": 45.0,
+        "longitude": -120.0,
+        "elevation": 1000.0,
+        "lifetime": 7,
+        "number_of_points": 1024,
+        "component": "Z",
+        "data": [0.1, 0.2, 0.3],
+        "event": "EARTHQUAKE_001",
+        "energy": 5.5,
+        "magnitude": 6.2,
+        "focal_mechanism": "Strike-slip",
+        "source_latitude": 44.5,
+        "source_longitude": -119.5,
+        "source_elevation": 10.0,
+        "alert_level": "WARNING",
+        "depth": 15.0
+    }
+]

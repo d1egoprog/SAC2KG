@@ -1,9 +1,6 @@
 # SAC2KG  
 
-![Version](https://img.shields.io/badge/Version-0.2.0-blue)  
-![License](https://img.shields.io/badge/License-MIT-green)  
-![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen)  
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue)  
+![Version](https://img.shields.io/badge/Version-0.2.0-blue) ![License](https://img.shields.io/badge/License-MIT-green) ![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen) ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)  
 
 The SAC2KG Python Library provides tools to load, manipulate, and generate RDF knowledge graphs based on the Volcano Event Ontology (VEO). Designed with simplicity and extensibility in mind, this library streamlines ontology-based data modeling for seismic sensor networks and related domains.  
 

@@ -1,4 +1,4 @@
-# SAC2KG  
+# SAC2KG a Neuro-Symbolic library for Volcano Event Detection
 
 ![Version](https://img.shields.io/badge/Version-0.2.0-blue) ![License](https://img.shields.io/badge/License-MIT-green) ![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen) ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)  
 

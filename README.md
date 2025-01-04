@@ -1,6 +1,6 @@
 # SAC2KG a Neuro-Symbolic library for Volcano Event Detection
 
-![Version](https://img.shields.io/badge/Version-0.2.0-blue) ![License](https://img.shields.io/badge/License-MIT-green) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14532821.svg)](https://doi.org/10.5281/zenodo.14532821)
+![Version](https://img.shields.io/badge/Version-0.3.1-blue) ![License](https://img.shields.io/badge/License-MIT-green) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14532821.svg)](https://doi.org/10.5281/zenodo.14532821)
 ![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen) ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)  
 
 The SAC2KG Python Library provides tools to load, manipulate, and generate RDF knowledge graphs based on the Volcano Event Ontology (VEO). Designed with simplicity and extensibility in mind, this library streamlines ontology-based data modeling for seismic sensor networks and related domains.  
@@ -37,9 +37,10 @@ This library is the Python implementation of the Volcano Event Ontology (VEO), e
 ---
 
 ## **Installation**  
-Install the library from PyPI:  
+Install the library from TestPyPI: 
+
 ``` bash  
-pip install sac2kg
+pip install -i https://test.pypi.org/simple/ sac2kg
 ```
 
 Alternatively, install the latest version from source:
@@ -51,27 +52,61 @@ pip install .
 ```
 ## Usage
 
-### Example: Mapping and Exporting Data
+### As a Python Library
+
+1. Download the [SAC](demo/example_trace.sac) (Seismic Analysis Code) or create a JSON file `example_trace.json` in some place of your file system. A [copy](demo/example_trace.json) is uploaded in the demo folder.
+
+``` JSON
+ {
+    "seismic_network": "US",
+    "station": "ANMO",
+    "instrument": "Broadband Seismometer",
+    "delta": 2.5,
+    "axis": 0.75,
+    "signal_type": "itime",
+    "unit": "m/s",
+    "positive_polarity": true,
+    "latitude": 34.945,
+    "longitude": -106.457,
+    "elevation": 1850.0,
+    "system_lifetime": "2023-12-15T08:00:00Z",
+    "data_points": 10,
+    "component": "Z",
+    "data": [0.01, 0.12, -0.03, 0.04, -0.08, 0.10, -0.02, 0.03, -0.01, 0.07],
+    "event": "Earthquake",
+    "energy": 1.2e12,
+    "magnitude": 4.5,
+    "focal_mechanism": "Strike-slip",
+    "source_latitude": 35.200,
+    "source_longitude": -105.750,
+    "source_elevation": 1500.0,
+    "depth": 12.3,
+    "alert_level": 2
+}
+```
+
+2. Copy the code into a Python module file and execute it or intagrate in your solution.
 
 ``` Python  
-from sac2kg import GraphManager  
+import sac2kg
 
-# Sample data to map
-data = {
-    "network": "TRZ",
-    "station": "CPV",
-    "instrument": "Seismometer",
-    "latitude": 40.123,
-    "longitude": -8.456,
-    "elevation": 500,
-    "data": [0.1, 0.2, 0.3],
-}
-# Initialize the ontology generator  
-veo = GraphManager()  
+print('-------Reading a SAC file and create the VEO-KG-------------------')
+g1 = sac2kg.read_from_json('example_trace.sac', ontology=False )
+sac2kg.graph_store(g1, 'example_sac_kg.ttl', output='ttl')
 
-# Map the data to the ontology
-rdf_graph = veo.rdf_mapper(data, "output")
-print("RDF Knowledge Graph exported to output.ttl")
+print('-------Reading a JSON file and create the VEO-KG-------------------')
+g2 = sac2kg.read_from_json('example_trace.json', ontology=False )
+sac2kg.graph_store(g2, 'example_json_kg.ttl', output='ttl')
+```
+
+### Using the Command Line Interface (CLI)
+
+The library provides a robust Command-Line Interface (CLI) tool located in the [demo/](demo/) folder. This tool simplifies the process of mapping SAC or JSON trace files into Knowledge Graphs following the VEO schema. Whether you are working with single files or entire directories, the CLI provides flexible options for various use cases.
+
+To explore the CLI in action, navigate to the  [demo/](demo/) folder and use the provided script. Below is an overview of its features and an example use case.
+
+``` bash
+python main.py my_trace.sac my_kg.ttl
 ```
 
 ## Citations 

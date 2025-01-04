@@ -5,6 +5,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.commit.cmd
+LIB_TEST.py
+.pypirc
 
 # C extensions
 *.so

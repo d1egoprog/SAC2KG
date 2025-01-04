@@ -1,0 +1,10 @@
+services:
+  server:
+    environment:
+      - INPUT_KG=rdf/example-trace-kg.ttl
+    volumes:
+    - ./example:/opt/jena-fuseki/input
+    - ./logs:/opt/jena-fuseki/logs
+    ports:
+      - 3030:3030
+    image: d1egoprog/jena-fuseki:4.9.0-web

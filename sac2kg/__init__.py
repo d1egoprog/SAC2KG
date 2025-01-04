@@ -15,14 +15,16 @@ __copyright__ = "Copyright 2024, Diego Rincon-Yanez"
 __date__ = "2024/10/20"
 __deprecated__ = False
 __status__ = "Prototype"
-__version__ = "0.2"
+__version__ = '0.3.1'
 
+from importlib.resources import files
 from dotenv import load_dotenv
-load_dotenv()
 
-from .veo_model import *
+load_dotenv(files('sac2kg').joinpath('.env'))
 
-from .sac_reader import SAC2VEO
-from .veo_mapper import VEOSemanticMapper
-from .graph_builder import GraphManager
+from sac2kg.graph_builder import read_from_json
+from sac2kg.graph_builder import read_from_sac
+from sac2kg.graph_builder import graph_store
+
+
 

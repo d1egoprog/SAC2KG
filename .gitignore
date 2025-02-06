@@ -5,6 +5,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.commit.cmd
+*.build.cmd
 LIB_TEST.py
 .pypirc
 

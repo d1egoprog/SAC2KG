@@ -10,7 +10,7 @@ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 """
 
-VERSION = '0.3.1'
+VERSION = '0.3.3'
 
 __author__ = "Diego Rincon-Yanez"
 __copyright__ = "Copyright 2024, Diego Rincon-Yanez"
@@ -23,7 +23,7 @@ import sys
 from setuptools import setup, find_packages
 
 NAME = 'sac2kg'
-REQUIRES = ['future==1.0.0','obspy==1.4.1','rdflib==7.0.0','tqdm==4','python-dotenv==1.0.1']
+REQUIRES = ['future>=1.0.0','obspy>=1.4.1','numpy>=2.1.3','rdflib>=7.0.0','tqdm>=4.64.7','python-dotenv>=1.0.1']
 DESCIPTION = 'A Python package for generating RDF knowledge graphs based on the Volcano Event Ontology VEO.'
 AUTHOR = 'Diego Rincon-Yanez'
 AUTHOR_EMAIL = 'rinconyanezd+sac2kg@gmail.com'

@@ -40,7 +40,7 @@ This library is the Python implementation of the Volcano Event Ontology (VEO), e
 Install the library from TestPyPI: 
 
 ``` bash  
-pip install -i https://test.pypi.org/simple/ sac2kg
+pip install -i https://test.pypi.org/simple/ sac2kg --extra-index-url https://pypi.org/simple/
 ```
 
 Alternatively, install the latest version from source:
@@ -106,7 +106,7 @@ The library provides a robust Command-Line Interface (CLI) tool located in the [
 To explore the CLI in action, navigate to the  [demo/](demo/) folder and use the provided script. Below is an overview of its features and an example use case.
 
 ``` bash
-python main.py my_trace.sac my_kg.ttl
+python -m sac2kg my_trace.sac my_kg
 ```
 
 ## Citations 

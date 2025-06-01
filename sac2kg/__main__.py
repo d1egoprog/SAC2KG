@@ -2,20 +2,50 @@
 # -*- coding: utf-8 -*-
 
 """ 
+This module provides a command-line interface for converting SAC and JSON files
+into Knowledge Graphs following the VEO Schema. It supports processing individual
+files or entire directories, with options to include an ontology/schema and specify
+output formats.
 
-Longer description of this module is not made yet :).
+The main functionality includes:
+- Parsing command-line arguments to determine input/output paths, formats, and options.
+- Converting individual SAC or JSON files into Knowledge Graphs.
+- Recursively processing directories to convert all recognized files while preserving
+    the folder structure.
+
+Dependencies:
+- __init__.py: Contains the main entry point for the package.
+- sac2kg.graph_builder: Provides functions for reading SAC/JSON files and storing
+    the resulting Knowledge Graphs.
+- sac2kg.sac_reader: Provides functions for reading SAC files.
+- sac2kg.veo_definitions: Provides definitions for the VEO schema.
+- sac2kg.veo:mapper: Provides functions for mapping SAC/JSON data to the VEO schema.
+- sac2kg.veo_model: Provides the VEO model for representing Knowledge Graphs.
+
+Usage:
+Run the script with the required arguments to convert files or directories into
+Knowledge Graphs. Use the `-h` flag for detailed usage instructions.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
 ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 """
 
-__author__ = "Diego Rincon-Yanez"
+import os
+from dotenv import load_dotenv
+from importlib.resources import files
+load_dotenv(files('').joinpath('.env'))
+
+BUILD_DATE = os.getenv('BUILD_DATE')
+AUTHOR_NAME = os.getenv('AUTHOR_NAME')
+COMPONENT_VERSION = os.getenv('COMPONENT_VERSION')
+
+__author__ = AUTHOR_NAME
+__date__ = BUILD_DATE
+__version__ = COMPONENT_VERSION
 __copyright__ = "Copyright 2024, Diego Rincon-Yanez"
-__date__ = "2024/10/20"
-__deprecated__ = False
 __status__ = "Prototype"
-__version__ = "0.3.1"
+__deprecated__ = False
 
 import os
 
@@ -27,10 +57,10 @@ from tqdm import tqdm
 import argparse
 
 parser = argparse.ArgumentParser(
-    description='Convert SAC and JSON files into Knowledge Graphs following the VEO Schema')
-parser.add_argument('traceFile', type=str, 
+    description='Convert SAC and JSON files into RDF Knowledge Graphs following the VEO Schema')
+parser.add_argument('trace_file', type=str, 
     help='Path to the input trace file (SAC or JSON) or directory containing trace files if -d is specified.')
-parser.add_argument('kgFile', type=str, 
+parser.add_argument('kg_file', type=str, 
     help='Path to the output knowledge graph file or directory where the results will be stored if -d is specified.')
 parser.add_argument('-f', '--format', type=str, choices=['sac', 'json'], default='sac', 
     help='Supported formats, default=sac. Options: sac or json')
@@ -47,9 +77,11 @@ def convert_file(origin_file, dest_file, flags, origin_folder='', dest_folder=''
     if origin_folder != '':
         origin_file = os.path.join(origin_folder, origin_file)
     if dest_folder != '':
-        dest_file = os.path.join(dest_folder,dest_file)
+        dest_file = os.path.join(dest_folder, dest_file)
 
     graph = flags[4](origin_file, ontology=flags[2])
+    if graph is None:
+        return
     graph_store(graph, dest_file, flags[1])
 
 @staticmethod
@@ -77,8 +109,8 @@ if __name__ == "__main__":
 
     #Convert a Folder
     if args.directory:
-        print(f'... Converting folder {args.traceFile} and everything in it')
-        convert_folder(args.traceFile, args.kgFile, flags)
+        print(f'... Converting folder {args.trace_file} and everything in it')
+        convert_folder(args.trace_file, args.kg_file, flags)
     else:
-        print(f'... Converting file {args.traceFile} into VEO KG into a {args.output} format')
-        convert_file(args.traceFile, args.kgFile, flags)
+        print(f'... Converting file {args.trace_file} into VEO KG into a {args.output} format')
+        convert_file(args.trace_file, args.kg_file, flags)

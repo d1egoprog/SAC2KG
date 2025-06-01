@@ -1,28 +1,62 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" 
+"""
+This module provides the `VEOSemanticMapper` class, which is responsible for mapping seismic data into a semantic 
+representation using RDF and the VEO ontology. It utilizes the `rdflib` library to construct and manipulate RDF graphs.
+The module defines three main static methods for generating different semantic models:
 
-Longer description of this module is not made yet :).
+1. `get_context_model`: Constructs the context model, which includes information about seismic networks, stations, 
+  instruments, and their relationships.
+2. `get_collection_model`: Constructs the collection model, which includes data points, their attributes, and 
+  relationships to seismic networks and instruments.
+3. `get_knowledge_model`: Constructs the knowledge model, which includes events, their attributes, locations, 
+  alert levels, and relationships to other entities.
+Additionally, the module provides utility methods for parsing and calculating seismic data attributes such as origin 
+time, end time, sampling rate, and record duration.
 
-This program is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+Environment Variables:
+- `ONTO_BASE_URI`: The base URI for the VEO ontology.
+
+Namespaces:
+- `SSN_SYSTEMS`: Namespace for SSN systems.
+- `SOSA`: Namespace for SOSA ontology.
+- `GEO`: Namespace for Geo ontology.
+- `TIME`: Namespace for Time ontology.
+- `VEO`: Namespace for the VEO ontology.
+
+Classes:
+- `VEOSemanticMapper`: A class for creating and managing RDF graphs based on the VEO ontology.
+
+Attributes:
+- `veo_graph`: An RDF graph used to store semantic data.
+
+Usage:
+- Instantiate the `VEOSemanticMapper` class to create and manage RDF graphs.
+- Use the static methods to generate specific semantic models based on the provided data.
 """
 
-__author__ = "Diego Rincon-Yanez"
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+BUILD_DATE = os.getenv('BUILD_DATE')
+AUTHOR_NAME = os.getenv('AUTHOR_NAME')
+COMPONENT_VERSION = os.getenv('COMPONENT_VERSION')
+
+__author__ = AUTHOR_NAME
+__date__ = BUILD_DATE
+__version__ = COMPONENT_VERSION
 __copyright__ = "Copyright 2024, Diego Rincon-Yanez"
-__date__ = "2024/10/20"
-__deprecated__ = False
 __status__ = "Prototype"
-__version__ = "0.3.1"
+__deprecated__ = False
 
 import os
 
-from rdflib import Graph, Literal, Namespace, URIRef
-from rdflib.namespace import SKOS, RDF, RDFS
+from rdflib import Graph, Namespace
+from rdflib.namespace import RDF
 
-from .veo_model import *
+from sac2kg.veo_model import *
 
 
 SSN_SYSTEMS = Namespace("http://www.w3.org/ns/ssn/systems#")
@@ -31,7 +65,7 @@ GEO = Namespace('http://www.w3.org/2003/01/geo/wgs84_pos#')
 TIME = Namespace('http://www.w3.org/2006/time#')
 VEO = Namespace(os.getenv('ONTO_BASE_URI'))
 
-class VEOSemanticMapper: 
+class VEORDFMapper: 
   veo_graph = Graph()
 
   #missing_value = URIRef(VEO['MissingValue'])
@@ -71,7 +105,6 @@ class VEOSemanticMapper:
     #graph.add((model.SM['Instrument'], VEO.unit, model.SM['unit']))
     return graph
 
-
   @staticmethod    
   def get_collection_model(graph, model):
     graph.add((model.SM['DataPointArray'], RDF.type, VEO.DataPointArray))
@@ -88,7 +121,7 @@ class VEOSemanticMapper:
       graph.add((data_point, VEO.isListOf, ground_displacement))
       graph.add((ground_displacement, VEO.amplitude, amplitude))
       graph.add((ground_displacement, VEO.component, model.SM['component'])) 
-    return graph
+    return graph  
 
   @staticmethod
   def get_knowledge_model(graph, model):
@@ -114,51 +147,3 @@ class VEOSemanticMapper:
     graph.add((model.SM['Event'], VEO.definedBy, model.SM['AlertLevel']))
     graph.add((model.SM['AlertLevel'], VEO.affects, model.SM['Place']))
     return graph
-
-
-"""
-    'originTime': _parse_origin_time(),  # Origin Time from multiple fields
-    'beginTime': _parse_origin_time(),#_parse_begin_time(),  # Record Start Time
-    'endTime': _parse_end_time(),  # Record End Time (calculated)
-    'samplingRate': _calculate_sampling_rate(),  # Calculated Sampling Rate
-    'recordDuration': _calculate_duration(),  # Duration of Record (seconds)
-
-    @staticmethod
-    def _parse_origin_time(sac_headers):
-        try:
-            year = sac_headers.get('nzyear', '1970')
-            jday = sac_headers.get('nzjday', '001')
-            hour = sac_headers.get('nzhour', '00')
-            minute = sac_headers.get('nzmin', '00')
-            second = sac_headers.get('nzsec', '00')
-            millisecond = sac_headers.get('nzmsec', '000')
-            date_str = f"{year}-{jday} {hour}:{minute}:{second}.{millisecond}"
-            return datetime.strptime(date_str, '%Y-%j %H:%M:%S.%f').isoformat()
-        except Exception as e:
-            return None
-
-    def _parse_end_time(veo_data_model):
-        if veo_data_model['numberOfPoints'] != 'None' and veo_data_model['delta'] != 'None':
-            try:
-                duration = int(veo_data_model['numberOfPoints']) * float(veo_data_model['delta'])
-                end_time = datetime.fromisoformat(veo_data_model['originTime']) + timedelta(seconds=duration)
-                return end_time.isoformat()
-            except Exception as e:
-                return 'None'
-        return 'None'
-
-    def _calculate_sampling_rate(sac_headers):
-        try:
-            return 1 / float(sac_headers.get('delta', '1'))
-        except ZeroDivisionError:
-            return 'None'
-
-    def _calculate_duration(veo_data_model):
-        if veo_data_model['numberOfPoints'] != 'None' and veo_data_model['delta'] != 'None':
-            try:
-                return float(veo_data_model['numberOfPoints']) * float(veo_data_model['delta'])
-            except Exception as e:
-                return 'None'
-        return 'None'
-
-"""    

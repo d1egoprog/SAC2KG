@@ -1,21 +1,54 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" 
-
-Longer description of this module is not made yet :).
-
-This program is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 """
 
-__author__ = "Diego Rincon-Yanez"
+This module defines the structure and utilities for working with the VEO (Volcanic Event Ontology) 
+and related ontologies. It provides functionality for generating URIs and literals for various 
+classes and properties, as well as defining namespaces, ontology file locations, and mappings 
+for semantic data representation.
+
+Key Features:
+- Namespace definitions for VEO, GEO, TIME, SOSA, and SSN_SYSTEMS.
+- URI generation for ontology classes and properties using `get_uri`.
+- Literal generation for ontology properties using `get_literal`.
+- Mappings for classes and literals to their respective namespaces and datatypes.
+- Context, Collection, and Knowledge model field definitions for semantic data organization.
+
+Constants:
+- `BUILD_DATE`, `AUTHOR_NAME`, `COMPONENT_VERSION`: Metadata loaded from environment variables.
+- `NAMESPACES`: Dictionary defining ontology namespaces.
+- `SCHEMA_FILE`: Path to the ontology schema file.
+- `URI_MAPPER`: Mapping of ontology classes to their namespace, URI structure, and generation logic.
+- `LITERAL_MAPPER`: Mapping of ontology literals to their respective XSD datatypes.
+- `CLASSES`, `LITERALS`: Aggregated tuples of ontology classes and literals.
+- `CONTEXT`, `COLLECTION`, `KNOWLEDGE`: Field definitions for different semantic models.
+
+Functions:
+- `build_point_uri(complement)`: Placeholder function for generating URIs for GEO points.
+- `build_place_uri(complement)`: Placeholder function for generating URIs for GEO places.
+- `build_time_uri(complement)`: Placeholder function for generating URIs for TIME instances.
+- `get_uri(key, value=None, nokey=False)`: Generates a URI for a given ontology class or property.
+- `get_literal(key, value, nokey=False)`: Generates a literal for a given ontology property.
+
+This module is intended for use in semantic data modeling and ontology-based applications, 
+particularly in the context of volcanic event data representation.
+"""
+
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+BUILD_DATE = os.getenv('BUILD_DATE')
+AUTHOR_NAME = os.getenv('AUTHOR_NAME')
+COMPONENT_VERSION = os.getenv('COMPONENT_VERSION')
+
+__author__ = AUTHOR_NAME
+__date__ = BUILD_DATE
+__version__ = COMPONENT_VERSION
 __copyright__ = "Copyright 2024, Diego Rincon-Yanez"
-__date__ = "2024/10/20"
-__deprecated__ = False
 __status__ = "Prototype"
-__version__ = "0.3.1"
+__deprecated__ = False
 
 import os
 import uuid
@@ -99,6 +132,7 @@ URI_MAPPER = {
     'Location': ('VEO', True, False, build_point_uri),
     'AlertLevel': ('VEO', True, True, False),
     'Place': ('GEO', True, False, build_place_uri),
+    'Blank': ('VEO', False, False, False),
 }
 
 # Literal Definitions

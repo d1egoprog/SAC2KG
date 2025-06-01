@@ -1,21 +1,45 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" 
+"""
+This module provides functionality to parse SAC (Seismic Analysis Code) files into a VEO (Virtual Earth Observatory) 
+data model and vice versa. It includes two main classes: SAC2VEO and VEO2SAC.
 
-Longer description of this module is not made yet :).
+Classes:
+    - SAC2VEO: A utility class for converting SAC files into a VEO-compatible data model.
+    - VEO2SAC: A utility class for converting a VEO data model into a SACTrace object.
 
-This program is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+Dependencies:
+    - os: For environment variable handling.
+    - dotenv: To load environment variables from a .env file.
+    - numpy: For numerical operations.
+    - datetime: For handling date and time conversions.
+    - pysac: For reading and writing SAC files.
+
+Constants:
+    - BUILD_DATE: The build date of the component, loaded from environment variables.
+    - AUTHOR_NAME: The author's name, loaded from environment variables.
+    - COMPONENT_VERSION: The version of the component, loaded from environment variables.
+
+Usage:
+    - Use the SAC2VEO class to parse SAC files into a dictionary-based VEO data model.
+    - Use the VEO2SAC class to map a VEO data model back to a SACTrace object and save it as a SAC file.
 """
 
-__author__ = "Diego Rincon-Yanez"
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+BUILD_DATE = os.getenv('BUILD_DATE')
+AUTHOR_NAME = os.getenv('AUTHOR_NAME')
+COMPONENT_VERSION = os.getenv('COMPONENT_VERSION')
+
+__author__ = AUTHOR_NAME
+__date__ = BUILD_DATE
+__version__ = COMPONENT_VERSION
 __copyright__ = "Copyright 2024, Diego Rincon-Yanez"
-__date__ = "2024/10/20"
-__deprecated__ = False
 __status__ = "Prototype"
-__version__ = "0.3.1"
+__deprecated__ = False
 
 import numpy as np
 

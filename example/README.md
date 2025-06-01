@@ -1,4 +1,4 @@
-# Usage Demo from SAC2KG Library
+# SAC2KG Library Usage
 
 This Python library provides tools to convert SAC and JSON files into Knowledge Graphs following the VEO (Volcano Event Ontology) Schema. The library supports both direct usage through Python code and a Command-Line Interface (CLI) for flexible operation.
 
@@ -15,7 +15,7 @@ This Python library provides tools to convert SAC and JSON files into Knowledge 
 ## Installation
 
 ``` bash  
-pip install -i https://test.pypi.org/simple/ sac2kg
+pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ sac2kg
 ```
 ---
 
@@ -28,13 +28,13 @@ The library includes a CLI tool for file and folder processing. Below are the av
 #### Command Syntax:
 
 ```bash
-python main.py [OPTIONS] traceFile kgFile
+python main.py [OPTIONS] trace_file kg_file
 ```
 
 #### Arguments:
 
-- **`traceFile`**:  Path to the input trace file (SAC or JSON) or directory containing trace files if -d is specified.
-- **`kgFile`**: Path to the output knowledge graph file or directory where the results will be stored if -d is specified.
+- **`trace_file`**:  Path to the input trace file (SAC or JSON) or directory containing trace files if -d is specified.
+- **`kg_file`**: Path to the output knowledge graph file or directory where the results will be stored if -d is specified.
 
 #### Options:
 - `-f, --format`  

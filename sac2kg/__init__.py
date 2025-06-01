@@ -1,21 +1,34 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Init the packages
+"""
+sac2kg: A Python library for building and managing knowledge graphs.
 
-Longer description of this module is not made yet :).
+This library provides tools to construct knowledge graphs from various data
+sources, including JSON and SAC files. It also includes utilities for storing
+and querying the resulting graphs.
 
-This program is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+Environment:
+- Automatically loads environment variables from a `.env` file located in the
+    `sac2kg` package directory.
 """
 
-__author__ = "Diego Rincon-Yanez"
+import os
+from dotenv import load_dotenv
+from importlib.resources import files
+
+load_dotenv(files().joinpath('.env'))
+
+BUILD_DATE = os.getenv('BUILD_DATE')
+AUTHOR_NAME = os.getenv('AUTHOR_NAME')
+COMPONENT_VERSION = os.getenv('COMPONENT_VERSION')
+
+__author__ = AUTHOR_NAME
+__date__ = BUILD_DATE
+__version__ = COMPONENT_VERSION
 __copyright__ = "Copyright 2024, Diego Rincon-Yanez"
-__date__ = "2024/10/20"
-__deprecated__ = False
 __status__ = "Prototype"
-__version__ = '0.3.1'
+__deprecated__ = False
 
 from importlib.resources import files
 from dotenv import load_dotenv

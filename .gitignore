@@ -8,10 +8,11 @@ __pycache__/
 *.build.cmd
 LIB_TEST.py
 .pypirc
-
-# C extensions
+.env
 *.so
-
+*.bak
+*.old
+# C extensions
 # Distribution / packaging
 .Python
 env/

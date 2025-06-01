@@ -1,0 +1,39 @@
+
+volumes:
+  neo4j_data:
+    driver: local
+services:
+  sac2kg:
+    build: 
+      args:
+        - BUILD_DATE=${BUILD_DATE}
+        - VERSION=${COMPONENT_VERSION}
+        - COMPONENT_NAME=${COMPONENT_NAME}
+        - COMPONENT_DESCRIPTION=${COMPONENT_DESCRIPTION}
+        - COMPONENT_URL=${COMPONENT_URL}
+        - AUTHOR_NAME=${AUTHOR_NAME}
+    environment:
+      - INPUT_SAC_FILE=${INPUT_SAC_FILE}
+      - OUTPUT_KG=${OUTPUT_KG}
+      - EXCECUTABLE=${COMPONENT_NAME}
+    volumes:
+      - ./examples:/opt/${COMPONENT_NAME}/examples
+    image: ${COMPONENT_NAME}:${COMPONENT_VERSION}
+  neo4j:
+    image: neo4j:2025.02.0
+    restart: unless-stopped
+    ports:
+      - 7474:7474
+      - 7687:7687
+    volumes:
+      - neo4j_data:/conf
+      - neo4j_data:/data
+      - neo4j_data:/logs
+      - neo4j_data:/plugins
+    environment: 
+      # Raise memory limits
+      - NEO4J_dbms_memory_pagecache_size=4G
+      - NEO4J_dbms.memory.heap.initial_size=4G
+      - NEO4J_dbms_memory_heap_max__size=4G
+      - NEO4J_AUTH=neo4j/your_password
+      #- NEO4JLABS_PLUGINS=["n10s"]

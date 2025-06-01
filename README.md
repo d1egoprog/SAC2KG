@@ -1,6 +1,6 @@
 # SAC2KG a Neuro-Symbolic library for Volcano Event Detection
 
-![Version](https://img.shields.io/badge/Version-0.3.1-blue) ![License](https://img.shields.io/badge/License-MIT-green) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14532821.svg)](https://doi.org/10.5281/zenodo.14532821)
+![Version](https://img.shields.io/badge/Version-0.3.3-blue) ![License](https://img.shields.io/badge/License-MIT-green) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14532821.svg)](https://doi.org/10.5281/zenodo.14532821)
 ![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen) ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)  
 
 The SAC2KG Python Library provides tools to load, manipulate, and generate RDF knowledge graphs based on the Volcano Event Ontology (VEO). Designed with simplicity and extensibility in mind, this library streamlines ontology-based data modeling for seismic sensor networks and related domains.  
@@ -40,7 +40,7 @@ This library is the Python implementation of the Volcano Event Ontology (VEO), e
 Install the library from TestPyPI: 
 
 ``` bash  
-pip install -i https://test.pypi.org/simple/ sac2kg --extra-index-url https://pypi.org/simple/
+pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ sac2kg
 ```
 
 Alternatively, install the latest version from source:
@@ -109,23 +109,6 @@ To explore the CLI in action, navigate to the  [demo/](demo/) folder and use the
 python -m sac2kg my_trace.sac my_kg
 ```
 
-## Citations 
-
-If this work is with your interest, you can read the associated [paper](), and if you use it in your research, please don't forget to cite 👍 this work; the suggested citation in BibTex format is:
-
-``` BibTex
-@article{Rincon2025a,
-    author = {Diego Rincon-Yanez and Sabrina Senatore and Declan O'Sullivan},
-    doi = {},
-    issn = {},
-    journal = {Submited to Evaluation to ESWC 2025 - Resource Track},
-    month = {6},
-    title = {From Data to Knowledge: A SAC2KG a Neuro-Symbolic library for Volcano Event Detection},
-    volume = {},
-    year = {2025},
-}
-``` 
-
 ### Advanced Usage
 
 - **Custom Ontology Extensions:** Extend the base ontology by adding new classes and properties using the provided ontology builder tools.
@@ -134,6 +117,23 @@ If this work is with your interest, you can read the associated [paper](), and i
 ## Documentation
 
 Refer to the [full documentation](docs/index.md) for detailed usage instructions, API references, and advanced examples.
+
+## Citations 
+
+If this work is with your interest, you can read the associated [paper](), and if you use it in your research, please don't forget to cite 👍 this work; the suggested citation in BibTex format is:
+
+``` BibTex
+@article{Rincon2025,
+    author = {Diego Rincon-Yanez and Sabrina Senatore and Declan O'Sullivan},
+    doi = {TBP},
+    issn = {16113349},
+    journal = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
+    month = {June},
+    title = {Scaling NeuroSymbolic AI integration for Seismic Event Detection},
+    volume = {TBP},
+    year = {To be Published},
+}
+```
 
 ## Contributing
 

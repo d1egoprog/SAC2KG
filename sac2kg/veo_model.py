@@ -1,28 +1,63 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" 
+"""
+This module defines data models and RDF parsing logic for handling seismic and 
+volcanic event observations. It provides a base data model (`VEOBaseModel`) 
+and an RDF-specific implementation (`VEORDF`) for representing and processing 
+seismic data, metadata, and related information.
 
-Longer description of this module is not made yet :).
+Classes:
+    - VEOBaseModel: A dataclass representing the base model for seismic and 
+      volcanic event observations, including metadata such as seismic network, 
+      station, instrument, and geolocation details.
+    - VEORDF: A subclass of `VEOBaseModel` that extends its functionality to 
+      parse and map data into RDF classes and literals for semantic representation.
 
-This program is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+Key Features:
+    - Environment variables (`BUILD_DATE`, `AUTHOR_NAME`, `COMPONENT_VERSION`) 
+      are loaded using `dotenv` to provide metadata about the module.
+    - The `VEOBaseModel` class encapsulates various attributes related to seismic 
+      events, such as geolocation, signal type, and event-specific details.
+    - The `VEORDF` class implements methods to parse data into RDF-compatible 
+      structures, including:
+        - `parse_classes`: Maps attributes to RDF classes.
+        - `parse_literals`: Maps attributes to RDF literals.
+        - `parse_data`: Processes amplitude data into RDF data points.
+
+Dependencies:
+    - sac2kg.veo_definitions: For RDF-related utility functions (`get_uri`, `get_literal`).
+
+Usage:
+    This module is intended for use in applications that require semantic 
+    representation of seismic and volcanic event data. The `VEORDF` class 
+    can be instantiated with event-specific data and used to generate RDF 
+    mappings for further processing or storage.
 """
 
-__author__ = "Diego Rincon-Yanez"
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+BUILD_DATE = os.getenv('BUILD_DATE')
+AUTHOR_NAME = os.getenv('AUTHOR_NAME')
+COMPONENT_VERSION = os.getenv('COMPONENT_VERSION')
+
+__author__ = AUTHOR_NAME
+__date__ = BUILD_DATE
+__version__ = COMPONENT_VERSION
 __copyright__ = "Copyright 2024, Diego Rincon-Yanez"
-__date__ = "2024/10/20"
-__deprecated__ = False
 __status__ = "Prototype"
-__version__ = "0.3.1"
+__deprecated__ = False
 
 import os
+import uuid
 
 from dataclasses import dataclass, field
 from typing import List
 
 from datetime import datetime
+
 
 @dataclass
 class VEOBaseModel:
@@ -54,7 +89,7 @@ class VEOBaseModel:
 from sac2kg.veo_definitions import *
 
 @dataclass
-class VEORDF(VEOBaseModel):
+class VEO2RDF(VEOBaseModel):
 
     def __post_init__(self):
         self.SM = dict()
@@ -69,7 +104,6 @@ class VEORDF(VEOBaseModel):
         classes.update(get_uri('Noise'))
         classes.update(get_uri('LongPeriod'))
         classes.update(get_uri('VolcanoTectonic'))
-
 
         if self.seismic_network != None:
             classes.update(get_uri('SeismicNetwork', self.seismic_network))
@@ -133,3 +167,13 @@ class VEORDF(VEOBaseModel):
             amp = get_literal('amplitude', amplitude, nokey=True)
             point_list.append((dp, gd, amp))
         return point_list
+
+@dataclass
+class VEO2Cypher(VEOBaseModel):
+
+    data_point_array = uuid.uuid4().hex[:8]
+
+    def __post_init__(self):
+        print(self)
+        print(self.data_point_array)
+        return None
